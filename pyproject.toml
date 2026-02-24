@@ -1,0 +1,47 @@
+[build-system]
+requires      = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name        = "lurkkit"
+version     = "1.0.0"
+description = "Lightweight host monitoring agent — telemetry, alerting, and process watching"
+readme      = "README.md"
+license     = {text = "MIT"}
+authors     = [{name = "LurkKit Contributors"}]
+keywords    = ["monitoring", "alerting", "observability", "metrics", "pagerduty", "slack", "datadog", "opsgenie"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Monitoring",
+]
+requires-python = ">=3.8"
+dependencies    = ["psutil>=5.9", "pyyaml>=6.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "pytest-cov", "black", "ruff", "mypy"]
+
+[project.scripts]
+lurkkit = "lurkkit.__main__:main"
+
+[project.urls]
+Homepage   = "https://github.com/SREportal/lurkkit"
+Repository = "https://github.com/SREportal/lurkkit"
+Issues     = "https://github.com/SREportal/lurkkit/issues"
+
+[tool.setuptools]
+packages = ["lurkkit", "lurkkit.collectors", "lurkkit.alerters", "lurkkit.telemetry"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts   = "-v --tb=short"
