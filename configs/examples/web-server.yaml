@@ -1,0 +1,58 @@
+agent:
+  interval: 30
+  log_level: INFO
+
+monitors:
+  system:
+    enabled: true
+    thresholds:
+      cpu_percent: 80
+      memory_percent: 85
+      disk_percent: 85
+      load_1m: 8.0
+    critical_overrides:
+      cpu_percent: 95
+      memory_percent: 95
+      disk_percent: 95
+
+  processes:
+    enabled: true
+    watch:
+      - name: nginx
+        min_count: 1
+        max_mem_mb: 256
+        critical: false
+      - name: postgres
+        min_count: 1
+        critical: true
+
+  http:
+    enabled: true
+    interval: 30
+    checks:
+      - name: "App Health"
+        url: "http://localhost:3000/health"
+        expect_status: 200
+        severity: critical
+
+alerting:
+  cooldown: 300
+  send_resolve: true
+  paging_severities: [critical]
+  non_paging_severities: [warning, info]
+
+  slack:
+    enabled: true
+    webhook_url: "${SLACK_WEBHOOK_URL}"
+    channel: "#ops-alerts"
+    mention_on_critical: "<!here>"
+
+  pagerduty:
+    enabled: true
+    routing_key: "${PAGERDUTY_ROUTING_KEY}"
+
+  datadog:
+    enabled: true
+    api_key: "${DATADOG_API_KEY}"
+    tags:
+      - "env:production"

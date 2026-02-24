@@ -1,0 +1,31 @@
+agent:
+  interval: 10
+  log_level: DEBUG
+
+telemetry:
+  enabled: true
+  type: stdout
+
+monitors:
+  system:
+    enabled: true
+    interval: 10
+    thresholds:
+      cpu_percent: 95
+      memory_percent: 95
+      disk_percent: 98
+
+  http:
+    enabled: true
+    interval: 30
+    checks:
+      - name: "Local Dev"
+        url: "http://localhost:3000"
+        expect_status: 200
+        severity: warning
+
+alerting:
+  cooldown: 60
+  send_resolve: false
+  paging_severities: []
+  non_paging_severities: [critical, warning, info]
